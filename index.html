@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Prueba Sigma Studios">
+    <meta name="author" content="FelipheGomez">
+
+    <title>Prueba DEV - SIGMA Studios</title>
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- Navigation -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top">
+        <div class="container">
+          <!-- LOGO -->
+          <!-- 
+          <a class="navbar-brand" href="#">
+            Start Bootstrap
+          </a>
+          -->
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active"><a class="nav-link" href="#page1">Page 1 <span class="sr-only">(current)</span></a></li>
+              <li class="nav-item"><a class="nav-link" href="#page2">Page 2</a></li>
+              <li class="nav-item"><a class="nav-link" href="#page3">Page 3</a></li>
+              <li class="nav-item"><a class="btn btn-transparent btn-default" href="#carouselExampleIndicators">Top</a></li>
+              <li class="nav-item"><a class="btn btn-transparent" href="#page4">Button</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <header>
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <!--
+              <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+              </ol>
+            -->
+          <div class="carousel-inner" role="listbox">
+            <!-- Slide Active -->
+            <div v-for="(slider, index) in sliders" v-if="index == 0" class="carousel-item active" v-bind:style="{ 'background-image': 'url(' + slider.image + ')' }">
+              <div class="carousel-caption d-md-block">
+                <h3>{{ slider.title }}</h3>
+                <p>{{ slider.text }}</p>
+                <a href="#page1" class="btn btn-lg btn-transparent btn-primary">Go to button</a>
+              </div>
+            </div>
+            <!-- Slide item -->
+            <div v-for="(slider, index) in sliders" v-if="index !== 0" class="carousel-item" v-bind:style="{ 'background-image': 'url(' + slider.image + ')' }">
+              <div class="carousel-caption d-md-block">
+                <h3>{{ slider.title }}</h3>
+                <p>{{ slider.text }}</p>
+              
+                <a href="#page1" class="btn btn-lg btn-transparent btn-primary">Go to button</a>
+              </div>
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <section id="page1" class="py-5 color-1">
+          <div class="cover">
+            <h1 class="cover-heading">Page 1</h1>
+            <a href="#page2" class="btn btn-lg btn-transparent btn-primary">Go to bottom</a>
+          </div>
+      </section>
+      
+      <section id="page2" class="py-5 color-2">
+        <div class="container">
+            <h1 class="title-1">Page 2</h1>
+            <div class="row text-justify">
+                <div class="col-sm-6">
+                    <p>Aenean egestas finibus urna, ac elementum metus consectetur ut. In non mattis dolor. Donec malesuada dignissim ligula in vulputate. Praesent a imperdiet sem. Aenean venenatis lacus et egestas eleifend. Praesent metus risus, congue vitae hendrerit ut, auctor sit amet tellus. Suspendisse sodales neque vitae nisi malesuada, tincidunt fringilla nulla bibendum. Nunc quis vehicula magna.</p>
+                    <p>Aenean egestas finibus urna, ac elementum metus consectetur ut. In non mattis dolor. Donec malesuada dignissim ligula in vulputate. Praesent a imperdiet sem. Aenean venenatis lacus et egestas eleifend. Praesent metus risus, congue vitae hendrerit ut, auctor sit amet tellus. Suspendisse sodales neque vitae nisi malesuada, tincidunt fringilla nulla bibendum. Nunc quis vehicula magna.</p>
+                </div>
+                <div class="col-sm-6">
+                    <p>Aenean egestas finibus urna, ac elementum metus consectetur ut. In non mattis dolor. Donec malesuada dignissim ligula in vulputate. Praesent a imperdiet sem. Aenean venenatis lacus et egestas eleifend. Praesent metus risus, congue vitae hendrerit ut, auctor sit amet tellus. Suspendisse sodales neque vitae nisi malesuada, tincidunt fringilla nulla bibendum. Nunc quis vehicula magna.</p>
+                    <p>Aenean egestas finibus urna, ac elementum metus consectetur ut. In non mattis dolor. Donec malesuada dignissim ligula in vulputate. Praesent a imperdiet sem. Aenean venenatis lacus et egestas eleifend. Praesent metus risus, congue vitae hendrerit ut, auctor sit amet tellus. Suspendisse sodales neque vitae nisi malesuada, tincidunt fringilla nulla bibendum. Nunc quis vehicula magna.</p>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <br><br><a href="#page3" class="btn btn-lg btn-transparent btn-primary">Go to bottom</a>
+                </div>
+            </div>
+        </div>
+      </section>
+      
+      <section id="page3" class="py-5 color-3">
+        <div class="container">
+            <h1 class="title-1">Page 3</h1>
+            <div class="row">
+                <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
+                    <div class="card">
+                        <img class="card-img-top" src="http://storage.sigmastudios.com.co/test/card-1.png">
+                        <div class="card-block">
+                            <h5 class="text-bold">SO THIRSTY</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
+                    <div class="card">
+                        <img class="card-img-top" src="http://storage.sigmastudios.com.co/test/card-2.png">
+                        <div class="card-block">
+                            <h5 class="text-bold">SO THIRSTY</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
+                    <div class="card">
+                        <img class="card-img-top" src="http://storage.sigmastudios.com.co/test/card-3.png">
+                        <div class="card-block">
+                            <h5 class="text-bold">SO THIRSTY</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <br><br><a href="#page4" class="btn btn-lg btn-transparent btn-primary">Go to bottom</a>
+                </div>
+            </div>
+        </div>
+      </section>
+      
+      <section id="page4" class="py-5 color-1">
+          <div class="cover">
+            <h1 class="cover-heading">Thank you!.</h1>
+            <a href="#carouselExampleIndicators" class="btn btn-lg btn-transparent btn-primary">Go to header</a>
+          </div>
+      </section>
+      
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Vue core JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <!-- Vue Axios JavaScript -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- Code Slider -->
+    <script>
+      new Vue({
+          el: '#app',
+          data: {
+              sliders: []
+          },
+          created: function(){
+              var that = this;
+              axios.get('https://api.myjson.com/bins/17ocpi')
+              .then(function (response) {                    
+                  $.each( response.data, function( key, value ) {
+                      that.sliders.push(value)
+                  });
+                  $("#carouselExampleIndicators").carousel("pause").removeData();
+              })
+              .catch(function (error) {
+                  console.log(error);
+              });
+          }
+      });
+    </script>
+  </body>
+</html>
