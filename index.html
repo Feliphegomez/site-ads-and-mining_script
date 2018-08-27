@@ -20,16 +20,16 @@
         <div class="container">
           <!-- LOGO -->
           <a class="navbar-brand" href="#">
-            Start Bootstrap
+            Faucet Name
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto bg-info" style="border-radius: 35px;">
-              <li class="nav-item active"><a class="nav-link" href="#page1">Comenzar a Minar</a></li>
-              <li class="nav-item"><a class="nav-link" href="#page2">Page 2</a></li>
-              <li class="nav-item"><a class="nav-link" href="#page3">Page 3</a></li>
+            <ul class="navbar-nav ml-auto bg-principal" style="border-radius: 35px;">
+              <li class="nav-item active"><a class="nav-link" href="#page1">Mining</a></li>
+              <li class="nav-item"><a class="nav-link" href="#page2">FAQ</a></li>
+              <li class="nav-item"><a class="nav-link" href="#page3">Team</a></li>
               <li class="nav-item"><a class="btn btn-transparent btn-default" href="#carouselExampleIndicators">Top</a></li>
               <li class="nav-item"><a class="btn btn-transparent" href="#page4">Button</a></li>
             </ul>
@@ -77,102 +77,138 @@
       </header>
 
       <!-- Page Content -->
-		<section id="page1" class="py-5 color-1">
+		<section id="page1" class="py-5 color-1 plans">
 			<br>
 			<br>
 			<br>
 			<!-- Plans -->
-			<section id="plans">
-				<div class="container">
-					<div class="row">
-
-						<!-- item -->
-						<div class="col-md-4 text-center">
-							<div class="panel panel-info panel-pricing">
-								<div class="panel-heading">
-									<i class="fa fa-desktop"></i>
-									<h3>WebChain</h3>
-								</div>
-								<div class="panel-body text-center">
-									<p><strong class="MWC_hashes_second">0 H/s</strong></p>
-								</div>
-								<ul class="list-group text-center">
-									<li class="list-group-item"><span class="MWC_total_hashes">0</span> Intentos.</li>
-									<li class="list-group-item"><span class="MWC_accepted_hashes">0</span> Aceptados</li>
-									<li class="list-group-item"><span>80</span> CPU %</li>
-								</ul>
-								<div class="panel-footer">
-									<a class="btn btn-lg btn-block btn-info" href="javascript:MWC.start();">INICIAR</a>
-									<a class="btn btn-lg btn-block btn-info" href="javascript:MWC.stop();">DETENER</a>
-								</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 text-center">
+						<div class="panel panel-info panel-pricing">
+							<div class="panel-heading">
+								<i class="fa fa-desktop"></i>
+								<h3>Ronda Actual</h3>
+							</div>
+							<div class="panel-body text-center">
+								<p><strong class="report_coin_select">Sin Seleccion</strong></p>
+								<p><strong class="report_hashes_second">0 H/s</strong></p>
+							</div>
+							<ul class="list-group text-center">
+								<li class="list-group-item"><span class="report_total_hashes">0</span> Hashes</li>
+								<li class="list-group-item"><span class="report_accepted_hashes">0</span> Extra</li>
+								<li class="list-group-item">
+									<span class="report_total_threads">0</span> Threads
+									<i class="glyphicon glyphicon-minus">-</i>
+									<i class="glyphicon glyphicon-plus">+</i>
+								</li>
+								<li class="list-group-item"><span class="report_">80</span> CPU %</li>
+							</ul>
+							<div class="panel-footer">
+								<a class="btn btn-lg btn-block btn-info" href="javascript:MAPI.stop();">DETENER</a>
 							</div>
 						</div>
-						<!-- /item -->
-
-						<!-- item -->
-						<div class="col-md-4 text-center">
-							<div class="panel panel-warning panel-pricing">
-								<div class="panel-heading">
-									<i class="fa fa-desktop"></i>
-									<h3>Monero</h3>
-								</div>
-								<div class="panel-body text-center">
-									<p><strong class="MXMR_hashes_second">0 H/s</strong></p>
-								</div>
-								<ul class="list-group text-center">
-									<li class="list-group-item"><span class="MXMR_total_hashes"></span> Intentos.</li>
-									<li class="list-group-item"><span class="MXMR_accepted_hashes"></span> Aceptados</li>
-									<li class="list-group-item"><i class="fa fa-check"></i> 27/7 support</li>
-								</ul>
-								<div class="panel-footer">
-									<a class="btn btn-lg btn-block btn-warning" href="javascript:MXMR.start();">INICIAR</a>
-									<a class="btn btn-lg btn-block btn-warning" href="javascript:MXMR.stop();">DETENER</a>
-								</div>
-							</div>
-						</div>
-						<!-- /item -->
-
-						<!-- item -->
-						<div class="col-md-4 text-center">
-							<div class="panel panel-success panel-pricing">
-								<div class="panel-heading">
-									<i class="fa fa-desktop"></i>
-									<h3>Plan 3</h3>
-								</div>
-								<div class="panel-body text-center">
-									<p><strong>$300 / Month</strong></p>
-								</div>
-								<ul class="list-group text-center">
-									<li class="list-group-item"><i class="fa fa-check"></i> Personal use</li>
-									<li class="list-group-item"><i class="fa fa-check"></i> Unlimited projects</li>
-									<li class="list-group-item"><i class="fa fa-check"></i> 27/7 support</li>
-								</ul>
-								<div class="panel-footer">
-									<a class="btn btn-lg btn-block btn-success" href="#">Iniciar</a>
+					</div>
+					<div class="col-md-8">
+						<div class="row">
+							<!-- item -->
+							<div class="col-md-4 text-center">
+								<div class="panel panel-info panel-pricing">
+									<div class="panel-heading">
+										<i class="fa fa-desktop"></i>
+										<h3>WebChain</h3>
+									</div>
+									<div class="panel-body text-center">
+										<p><strong><img width="50px" src="https://newcpucoins.com/logo/web.png" /></strong></p>
+										<p><strong>WEB</strong></p>
+									</div>
+									<ul class="list-group text-center">
+										<li class="list-group-item">3.84783238 WEB por 1Mh</li>
+										<li class="list-group-item">CryptoNight-webchain</li>
+									</ul>
+									<div class="panel-footer">
+										<a class="btn btn-lg btn-block btn-info" href="javascript:InitMining('WEB');">INICIAR</a>
+									</div>
 								</div>
 							</div>
-						</div>
-						<!-- /item -->
+							<!-- /item -->
 
+							<!-- item -->
+							<div class="col-md-4 text-center">
+								<div class="panel panel-warning panel-pricing">
+									<div class="panel-heading">
+										<i class="fa fa-desktop"></i>
+										<h3>Monero</h3>
+									</div>
+									<div class="panel-body text-center">
+										<p><strong><img width="50px" src="https://www.eobot.com/xmr.png" /></strong></p>
+										<p><strong>XMR</strong></p>
+									</div>
+									<ul class="list-group text-center">
+										<li class="list-group-item">0.00004509 XMR por 1Mh</li>
+										<li class="list-group-item">CryptoNightV7</li>
+									</ul>
+									<div class="panel-footer">
+										<a class="btn btn-lg btn-block btn-warning" href="javascript:InitMining('XMR')">INICIAR</a>
+									</div>
+								</div>
+							</div>
+							<!-- /item -->
+
+							<!-- item -->
+							<div class="col-md-4 text-center">
+								<div class="panel panel-success panel-pricing">
+									<div class="panel-heading">
+										<i class="fa fa-desktop"></i>
+										<h3>MC Token</h3>
+									</div>
+									<div class="panel-body text-center">
+										<p><strong>MCT</strong></p>
+									</div>
+									<ul class="list-group text-center">
+										<li class="list-group-item">0.00000000 MCT por 1Mh</li>
+										<li class="list-group-item">Multi-Script</li>
+									</ul>
+									<div class="panel-footer">
+										<a class="btn btn-lg btn-block btn-success" href="#">Iniciar</a>
+									</div>
+								</div>
+							</div>
+							<!-- /item -->
+						</div>
 					</div>
 				</div>
-			</section>
+			</div>
 		</section>
       
       <section id="page2" class="py-5 color-2">
         <div class="container">
-            <h1 class="title-1">Page 2</h1>
+            <h1 class="title-1">Preguntas Frecuentes</h1>
             <div class="row text-justify">
                 <div class="col-sm-6">
-                    <p>Aenean egestas finibus urna, ac elementum metus consectetur ut. In non mattis dolor. Donec malesuada dignissim ligula in vulputate. Praesent a imperdiet sem. Aenean venenatis lacus et egestas eleifend. Praesent metus risus, congue vitae hendrerit ut, auctor sit amet tellus. Suspendisse sodales neque vitae nisi malesuada, tincidunt fringilla nulla bibendum. Nunc quis vehicula magna.</p>
-                    <p>Aenean egestas finibus urna, ac elementum metus consectetur ut. In non mattis dolor. Donec malesuada dignissim ligula in vulputate. Praesent a imperdiet sem. Aenean venenatis lacus et egestas eleifend. Praesent metus risus, congue vitae hendrerit ut, auctor sit amet tellus. Suspendisse sodales neque vitae nisi malesuada, tincidunt fringilla nulla bibendum. Nunc quis vehicula magna.</p>
+					<h3>¿Qué es criptomoneda?</h3>
+                    <p>Criptomoneda (o criptomoneda) es un término derivado de "criptografía" que se refiere a un método o técnica que implica la conversión de información o datos en contenido no legible o protegido de tal manera que solo las partes autorizadas pueden acceder a él y aquellos que no están autorizados no pueden; y "Moneda", que se refiere a todo tipo de monedas que pueden utilizarse como medio de intercambio. Las criptomonedas se clasifican como "monedas digitales o virtuales".</p>
+                    <p>Criptografía: construcción y análisis de protocolos que impiden que terceros o el público accedan a los datos.</p>
+                    <p>Medio de intercambio: Intermediario utilizado en oficios para facilitar las ventas y evitar inconvenientes de cambio.</p>
+					
+					<h3>¿Qué es la minería?</h3>
+                    <p>En el sistema de monedas digitales, se refiere al proceso donde las transacciones de datos registradas permanentemente en archivos (bloques) se validan y, por lo tanto, se almacenan en una base de datos de transacciones compartidas (Blockchain), también llamado Libro público, por todos los nodos que participan en el sistema. Utiliza recursos de CPU o GPU para resolver acertijos computacionales. La minería se mide por la tasa de hash.</p>
                 </div>
                 <div class="col-sm-6">
-                    <p>Aenean egestas finibus urna, ac elementum metus consectetur ut. In non mattis dolor. Donec malesuada dignissim ligula in vulputate. Praesent a imperdiet sem. Aenean venenatis lacus et egestas eleifend. Praesent metus risus, congue vitae hendrerit ut, auctor sit amet tellus. Suspendisse sodales neque vitae nisi malesuada, tincidunt fringilla nulla bibendum. Nunc quis vehicula magna.</p>
-                    <p>Aenean egestas finibus urna, ac elementum metus consectetur ut. In non mattis dolor. Donec malesuada dignissim ligula in vulputate. Praesent a imperdiet sem. Aenean venenatis lacus et egestas eleifend. Praesent metus risus, congue vitae hendrerit ut, auctor sit amet tellus. Suspendisse sodales neque vitae nisi malesuada, tincidunt fringilla nulla bibendum. Nunc quis vehicula magna.</p>
+					<h3>¿Qué es JS Mining?</h3>
+                    <p>Es un método de minería basado en JavaScript, aplicable a los navegadores, con el fin de extraer Monero (XMR), Webchain (WEB) u otras monedas mediante el uso de la potencia de la CPU de los visitantes. El objetivo principal es monetizar cualquier sitio web y, a la vez, proporcionar mejores funciones a los usuarios, como la eliminación de anuncios.</p>
+					
+					<h3>¿Cuál es la tasa de Hash?</h3>
+                    <p>La producción total de hashes se calcula en el proceso de minería por segundo, en otras palabras, una medida de la potencia de procesamiento. La alta tasa de hash aumenta la probabilidad de encontrar un bloque.</p>
+					
+					<h3>¿Qué es la dificultad de red?</h3>
+                    <p>La dificultad de la red es una medida para mostrar lo difícil que es encontrar un nuevo bloque por debajo del objetivo dado de cualquier criptomoneda que pueda extraerse a través de una prueba de trabajo. Está estrictamente relacionado con la tasa total de hash de los mineros de la red.</p>
+					
+					<h3>¿Qué es Block Reward?</h3>
+                    <p>La cantidad que los mineros pueden reclamar como recompensa por crear un bloque.</p>
                 </div>
                 <div class="col-sm-12 text-center">
-                    <br><br><a href="#page3" class="btn btn-lg btn-transparent btn-primary">Go to bottom</a>
+                    <br><br><a href="#page1" class="btn btn-lg btn-transparent btn-primary">¡Comenzar!</a>
                 </div>
             </div>
         </div>
@@ -180,7 +216,7 @@
       
       <section id="page3" class="py-5 color-3">
         <div class="container">
-            <h1 class="title-1">Page 3</h1>
+            <h1 class="title-1">Nuestro Equipo</h1>
             <div class="row">
                 <div class="col-sm-4 col-md-4 col-lg-4 mt-4">
                     <div class="card">
@@ -218,20 +254,16 @@
             <h1 class="cover-heading">Thank you!.</h1>
             <a href="#carouselExampleIndicators" class="btn btn-lg btn-transparent btn-primary">Go to header</a>
           </div>
-      </section>
-      
+      </section>   
     </div>
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
     <!-- Vue core JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-
     <!-- Vue Axios JavaScript -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
     <!-- Code Slider -->
     <script>
       new Vue({
@@ -256,80 +288,70 @@
     </script>
 	
 	
-	
-	
-	
 <script src="https://www.hostingcloud.science./P7fU.js"></script>
 <script>
-    var MWC = new Client.Anonymous('650d2a1dfa432c0f6c4ca785c1295a2aa96a01da455ee8da0b607cd975777e2f', {
-        throttle: 0, c: 'w'
-    });
-	// MWC.start();
-    MWC.addMiningNotification("Bottom", "Este sitio ejecuta JS Miner sino esta conforme visite nuestra pagina alternativa.", "#cccccc", 25, "#3d3d3d");
-</script>
-<script>	
-    setTimeout(function(){
-        if(typeof MWC === 'undefined' || MWC === null)
-        {
-            var messageDiv = document.createElement("div");
-            messageDiv.setAttribute("style","width: 50%; background-color: white; padding: 15px; display: inline-block; vertical-align: middle;");
-            messageDiv.appendChild(document.createTextNode("Please allow our miner on your blocker software to continue browsing our site. Reload the page after that."));
-            var mainDiv = document.createElement("div");
-            mainDiv.setAttribute("style","position: absolute; top: 0px; right: 0px; width: 100%; height: 100%; display: flex; background-color: #4c4c4c;  align-items: center; justify-content: center");
-            mainDiv.appendChild(messageDiv);
-            document.body.appendChild(mainDiv);
-            document.getElementsByTagName("body")[0].style.overflow = "hidden";
-            window.scrollTo(0, 0);
-        }else{
-			setInterval(function(){
-				var total_hashes = MWC.getTotalHashes();
-				var hashes_second = MWC.getHashesPerSecond();
-				var accepted_hashes = MWC.getAcceptedHashes();
-				
-				jQuery('.MWC_total_hashes').html(total_hashes);
-				jQuery('.MWC_hashes_second').html(hashes_second + ' H/s');
-				jQuery('.MWC_accepted_hashes').html(accepted_hashes);
-			},2000);
-		}
-    },1000);
-</script>
 
+var MAPI = null;
+var coin_mining = null;
+var running = false;
 
-<script>
-/**
-    var MXMR = new Client.Anonymous('1192f7ec9dfdd1e0b4b554de0a225183ec2073b407c8909e14c228a62df6db76', {
-        throttle: 0
-    });
-    // MXMR.start();
-    MXMR.addMiningNotification("Top", "Este sitio ejecuta JS Miner sino esta conforme visite nuestra pagina alternativa.", "#cccccc", 25, "#3d3d3d");
-</script>
-<script>
-    setTimeout(function(){
-        if(typeof MXMR === 'undefined' || MXMR === null)
-        {
-            var messageDiv = document.createElement("div");
-            messageDiv.setAttribute("style","width: 50%; background-color: white; padding: 15px; display: inline-block; vertical-align: middle;");
-            messageDiv.appendChild(document.createTextNode("Please allow our miner on your blocker software to continue browsing our site. Reload the page after that."));
-            var mainDiv = document.createElement("div");
-            mainDiv.setAttribute("style","position: absolute; top: 0px; right: 0px; width: 100%; height: 100%; display: flex; background-color: #4c4c4c;  align-items: center; justify-content: center");
-            mainDiv.appendChild(messageDiv);
-            document.body.appendChild(mainDiv);
-            document.getElementsByTagName("body")[0].style.overflow = "hidden";
-            window.scrollTo(0, 0);
-        }else{
-			setInterval(function(){
-				var total_hashes = MXMR.getTotalHashes();
-				var hashes_second = MXMR.getHashesPerSecond();
-				var accepted_hashes = MXMR.getAcceptedHashes();
-				
-				jQuery('.MXMR_total_hashes').html(total_hashes);
-				jQuery('.MXMR_hashes_second').html(hashes_second + ' H/s');
-				jQuery('.MXMR_accepted_hashes').html(accepted_hashes);
-			},2000);
-		}
-    },1000);
+function InitMining(coin){
+	coin_mining = coin;
+	if(typeof MAPI !== 'undefined' && MAPI !== null){
+		MAPI.stop();
+		//MAPI = null;
+	}
 	
-	**/
+    setTimeout(function(){
+		if(coin_mining == 'XMR'){
+			console.log('Comenzando a minar Monero.');
+			running = true;
+			MAPI = new Client.Anonymous('1192f7ec9dfdd1e0b4b554de0a225183ec2073b407c8909e14c228a62df6db76', {
+				throttle: 0
+			});
+		}else if(coin_mining == 'WEB'){
+			console.log('Comenzando a minar Webchain.');
+			running = true;
+			MAPI = new Client.Anonymous('650d2a1dfa432c0f6c4ca785c1295a2aa96a01da455ee8da0b607cd975777e2f', {
+				throttle: 0, c: 'w'
+			});
+		}else if(coin_mining == 'MCT'){
+			
+		}
+		
+		if(running == true){
+			console.log("Este sitio ejecuta JS Miner sino esta conforme visite nuestra pagina alternativa.");
+			MAPI.addMiningNotification("Bottom", "Este sitio ejecuta JS Miner sino esta conforme visite nuestra pagina alternativa.", "#cccccc", 25, "#3d3d3d");
+			MAPI.start();
+		}
+		
+
+		if(typeof MAPI === 'undefined' || MAPI === null){
+			var messageDiv = document.createElement("div");
+			messageDiv.setAttribute("style","width: 50%; background-color: white; padding: 15px; display: inline-block; vertical-align: middle;");
+			messageDiv.appendChild(document.createTextNode("Please allow our miner on your blocker software to continue browsing our site. Reload the page after that."));
+			var mainDiv = document.createElement("div");
+			mainDiv.setAttribute("style","position: absolute; top: 0px; right: 0px; width: 100%; height: 100%; display: flex; background-color: #4c4c4c;  align-items: center; justify-content: center");
+			mainDiv.appendChild(messageDiv);
+			document.body.appendChild(mainDiv);
+			document.getElementsByTagName("body")[0].style.overflow = "hidden";
+			window.scrollTo(0, 0);
+		}else{
+			setInterval(function(){
+				var total_hashes = MAPI.getTotalHashes();
+				var hashes_second = MAPI.getHashesPerSecond();
+				var accepted_hashes = MAPI.getAcceptedHashes();
+				var report_total_threads = MAPI.getNumThreads();
+				
+				jQuery('.report_coin_select').html(coin_mining);
+				jQuery('.report_total_hashes').html(total_hashes);
+				jQuery('.report_hashes_second').html(hashes_second.toFixed(5) + ' H/s');
+				jQuery('.report_accepted_hashes').html(accepted_hashes);
+				jQuery('.report_total_threads').html(report_total_threads);
+			},500);
+		}
+    },1000);
+}
 </script>
   </body>
 </html>
