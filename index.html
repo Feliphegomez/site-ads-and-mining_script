@@ -8,9 +8,11 @@
 
     <title>Mining Web, Faucet and ads</title>
     <!-- Bootstrap core CSS -->
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
+
   </head>
 
   <body>
@@ -85,7 +87,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-4 text-center">
-						<div class="panel panel-info panel-pricing">
+						<div class="panel panel-primary panel-pricing">
 							<div class="panel-heading">
 								<i class="fa fa-desktop"></i>
 								<h3>Ronda Actual</h3>
@@ -99,13 +101,13 @@
 								<li class="list-group-item"><span class="report_accepted_hashes">0</span> Extra</li>
 								<li class="list-group-item">
 									<span class="report_total_threads">0</span> Threads
-									<i class="glyphicon glyphicon-minus">-</i>
-									<i class="glyphicon glyphicon-plus">+</i>
+									<a class="btn-sm btn-primary showMining" href="javascript:downThreadsMining()"><i class="glyphicon glyphicon-minus"></i></a>
+									<a class="btn-sm btn-primary showMining" href="javascript:upThreadsMining()"><i class="glyphicon glyphicon-plus"></i></a>
 								</li>
 								<li class="list-group-item"><span class="report_">80</span> CPU %</li>
 							</ul>
 							<div class="panel-footer">
-								<a class="btn btn-lg btn-block btn-info" href="javascript:MAPI.stop();">DETENER</a>
+								<a class="btn btn-lg btn-block btn-primary showMining" href="javascript:MAPI.stop();">DETENER</a>
 							</div>
 						</div>
 					</div>
@@ -295,6 +297,16 @@ var MAPI = null;
 var coin_mining = null;
 var running = false;
 
+function upThreadsMining(){
+	var _tempThreads = MAPI.getNumThreads() + 1;
+	MAPI.setNumThreads(_tempThreads);
+}
+
+function downThreadsMining(){
+	var _tempThreads = MAPI.getNumThreads() - 1;
+	MAPI.setNumThreads(_tempThreads);
+}
+
 function InitMining(coin){
 	coin_mining = coin;
 	if(typeof MAPI !== 'undefined' && MAPI !== null){
@@ -337,21 +349,29 @@ function InitMining(coin){
 			document.getElementsByTagName("body")[0].style.overflow = "hidden";
 			window.scrollTo(0, 0);
 		}else{
-			setInterval(function(){
-				var total_hashes = MAPI.getTotalHashes();
-				var hashes_second = MAPI.getHashesPerSecond();
-				var accepted_hashes = MAPI.getAcceptedHashes();
-				var report_total_threads = MAPI.getNumThreads();
-				
-				jQuery('.report_coin_select').html(coin_mining);
-				jQuery('.report_total_hashes').html(total_hashes);
-				jQuery('.report_hashes_second').html(hashes_second.toFixed(5) + ' H/s');
-				jQuery('.report_accepted_hashes').html(accepted_hashes);
-				jQuery('.report_total_threads').html(report_total_threads);
-			},500);
 		}
     },1000);
 }
+
+setInterval(function(){
+	if(typeof MAPI !== 'undefined' && MAPI !== null){		
+
+		var total_hashes = MAPI.getTotalHashes();
+		var hashes_second = MAPI.getHashesPerSecond();
+		var accepted_hashes = MAPI.getAcceptedHashes();
+		var report_total_threads = MAPI.getNumThreads();
+		
+		jQuery('.report_coin_select').html(coin_mining);
+		jQuery('.report_total_hashes').html(total_hashes);
+		jQuery('.report_hashes_second').html(hashes_second.toFixed(5) + ' H/s');
+		jQuery('.report_accepted_hashes').html(accepted_hashes);
+		jQuery('.report_total_threads').html(report_total_threads);
+		
+		jQuery('.showMining').show();
+	}else{
+		jQuery('.showMining').hide();
+	}
+},500);
 </script>
   </body>
 </html>
