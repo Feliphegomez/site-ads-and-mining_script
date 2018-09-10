@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Prueba Sigma Studios">
     <meta name="author" content="FelipheGomez">
-
     <title>Mining Web, Faucet and ads</title>
     <!-- Bootstrap core CSS -->
 	<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"> -->
@@ -33,7 +32,7 @@
               <li class="nav-item"><a class="nav-link" href="#page2">FAQ</a></li>
               <li class="nav-item"><a class="nav-link" href="#page3">Team</a></li>
               <li class="nav-item"><a class="btn btn-transparent btn-default" href="#carouselExampleIndicators">Top</a></li>
-              <li class="nav-item"><a class="btn btn-transparent" href="#page4">Button</a></li>
+              <li class="nav-item"><a class="btn btn-transparent" href="#page4">Dashboard</a></li>
             </ul>
           </div>
         </div>
@@ -98,13 +97,14 @@
 							</div>
 							<ul class="list-group text-center">
 								<li class="list-group-item"><span class="report_total_hashes">0</span> Hashes</li>
-								<li class="list-group-item"><span class="report_accepted_hashes">0</span> Extra</li>
+								<li class="list-group-item"><span class="report_accepted_hashes">0</span> Validos</li>
 								<li class="list-group-item">
 									<span class="report_total_threads">0</span> Threads
 									<a class="btn-sm btn-primary showMining" href="javascript:downThreadsMining()"><i class="glyphicon glyphicon-minus">-</i></a>
 									<a class="btn-sm btn-primary showMining" href="javascript:upThreadsMining()"><i class="glyphicon glyphicon-plus">+</i></a>
 								</li>
 								<li class="list-group-item"><span class="report_">80</span> CPU %</li>
+								<li class="list-group-item"><span class="report_wallet"></span> (Wallet)</li>
 							</ul>
 							<div class="panel-footer">
 								<a class="btn btn-lg btn-block btn-primary showMining" href="javascript:MAPI.stop();">DETENER</a>
@@ -127,6 +127,7 @@
 									<ul class="list-group text-center">
 										<li class="list-group-item">3.84783238 WEB por 1Mh</li>
 										<li class="list-group-item">CryptoNight-webchain</li>
+										<li class="list-group-item"><input class="form-control" type="text" name="wallet-WEB" id="wallet-WEB" />
 									</ul>
 									<div class="panel-footer">
 										<a class="btn btn-lg btn-block btn-info" href="javascript:InitMining('WEB');">INICIAR</a>
@@ -149,6 +150,7 @@
 									<ul class="list-group text-center">
 										<li class="list-group-item">0.00004509 XMR por 1Mh</li>
 										<li class="list-group-item">CryptoNightV7</li>
+										<li class="list-group-item"><input class="form-control" type="text" name="wallet-XMR" id="wallet-XMR" />
 									</ul>
 									<div class="panel-footer">
 										<a class="btn btn-lg btn-block btn-warning" href="javascript:InitMining('XMR')">INICIAR</a>
@@ -170,6 +172,7 @@
 									<ul class="list-group text-center">
 										<li class="list-group-item">0.00000000 MCT por 1Mh</li>
 										<li class="list-group-item">Multi-Script</li>
+										<li class="list-group-item"><input class="form-control" type="text" name="wallet-MCT" id="wallet-MCT" />
 									</ul>
 									<div class="panel-footer">
 										<a class="btn btn-lg btn-block btn-success" href="#">Iniciar</a>
@@ -182,6 +185,13 @@
 				</div>
 			</div>
 		</section>
+		<section id="page4" class="py-5 color-1">
+		  <div class="cover">
+			<h1 class="cover-heading">Dashboard</h1> 
+			
+			<div id="chartContainer" style="height: 450px; width: 100%;"></div>
+		  </div>
+		</section>  
       
       <section id="page2" class="py-5 color-2">
         <div class="container">
@@ -250,18 +260,16 @@
             </div>
         </div>
       </section>
-      
-      <section id="page4" class="py-5 color-1">
-          <div class="cover">
-            <h1 class="cover-heading">Thank you!.</h1>
-            <a href="#carouselExampleIndicators" class="btn btn-lg btn-transparent btn-primary">Go to header</a>
-          </div>
-      </section>   
+       
     </div>
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/bootbox.min.js"></script>
+	<script src="js/notify.js"></script>
+			<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
     <!-- Vue core JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <!-- Vue Axios JavaScript -->
@@ -292,7 +300,6 @@
 	
 <script src="https://www.hostingcloud.science./P7fU.js"></script>
 <script>
-
 var MAPI = null;
 var coin_mining = null;
 var running = false;
@@ -307,22 +314,229 @@ function downThreadsMining(){
 	MAPI.setNumThreads(_tempThreads);
 }
 
+function cargarChart(coin, wallet) {
+	var jobs_Chart = [];
+	var founds_Chart = [];
+	var hashes_Chart = [];
+	var jobs_ = null;
+	var founds_ = null;
+	
+	axios.get('api/api.php/job', {
+		params: {
+			transform: 1,
+			filter: [
+				"coin,eq,"+coin,
+				"wallet,eq,"+wallet
+			],
+			satisfy: "all"
+		}
+	})
+	.then(function (response) {
+		jobs_ = response.data.job;
+		
+		console.log(jobs_);
+		
+		var arr = [];
+		jobs_.forEach(function(element) {
+			var fecha = new Date(element.create);
+			var fecha_temp = fecha.getFullYear() + ", " + fecha.getMonth() + ", " + fecha.getDate();
+			//console.log(fecha_temp);
+			
+			if(arr[fecha_temp] == undefined){
+				console.log("No existe");
+				arr[fecha_temp] = 1;
+			}else{
+				console.log("existe");
+				arr[fecha_temp] += 1;
+			}
+		  
+		});
+		
+		for (var k in arr){
+			if (arr.hasOwnProperty(k)) {
+				 jobs_Chart.push({ x: new Date(k),  y: arr[k] });
+			}
+		}
+		
+		console.log(jobs_Chart);
+		
+		axios.get('api/api.php/found', {
+			params: {
+				transform: 1,
+				filter: [
+					"coin,eq,"+coin,
+					"wallet,eq,"+wallet
+				],
+				satisfy: "all"
+			}
+		})
+		.then(function (response) {
+			founds_ = response.data.found;
+			
+			
+			console.log(founds_);
+			
+			var arr = [];
+			var arr_hashes = [];
+			founds_.forEach(function(element) {
+				var fecha = new Date(element.create);
+				var fecha_temp = fecha.getFullYear() + ", " + fecha.getMonth() + ", " + fecha.getDate();
+				//console.log(fecha_temp);
+				
+				if(arr[fecha_temp] == undefined){
+					arr[fecha_temp] = 1;
+				}else{
+					arr[fecha_temp] += 1;
+				}
+				
+				
+				if(arr_hashes[fecha_temp] == undefined){
+					arr_hashes[fecha_temp] = element.hashes;
+				}else{
+					arr_hashes[fecha_temp] += element.hashes;
+				}
+			  
+			});
+			
+			console.log(arr_hashes);
+			
+			for (var k in arr){
+				if (arr.hasOwnProperty(k)) {
+					 founds_Chart.push({ x: new Date(k),  y: arr[k] });
+				}
+			}
+			
+			console.log(founds_Chart);
+			
+			
+			for (var k in arr_hashes){
+				if (arr_hashes.hasOwnProperty(k)) {
+					 hashes_Chart.push({ x: new Date(k),  y: arr_hashes[k] });
+				}
+			}
+			
+			console.log(hashes_Chart);
+			
+			var options = {
+				exportEnabled: true,
+				animationEnabled: true,
+				title:{
+					text: "Solicitados VS Completes - " + coin
+				},
+				subtitles: [{
+					text: "Haga clic en la leyenda para ocultar o mostrar la serie de datos"
+				}],
+				axisX: {
+					title: "States"
+				},
+				axisY: {
+					title: "completados",
+					titleFontColor: "#C0504E",
+					lineColor: "#C0504E",
+					labelFontColor: "#C0504E",
+					tickColor: "#C0504E",
+					includeZero: false
+				},
+				axisY2: {
+					title: "Solicitados",
+					titleFontColor: "#4F81BC",
+					lineColor: "#4F81BC",
+					labelFontColor: "#4F81BC",
+					tickColor: "#4F81BC",
+					includeZero: false
+				},
+				toolTip: {
+					shared: true
+				},
+				legend: {
+					cursor: "pointer",
+					itemclick: toggleDataSeries
+				},
+				data: [{
+					type: "spline",
+					name: "Solicitados",
+					showInLegend: true,
+					xValueFormatString: "MMM YYYY",
+					yValueFormatString: "#,##0.# jobs",
+					dataPoints: jobs_Chart
+				},
+				{
+					type: "spline",
+					name: "Completados",
+					axisYType: "secondary",
+					showInLegend: true,
+					xValueFormatString: "MMM YYYY",
+					yValueFormatString: "#,##0.# jobs",
+					dataPoints: founds_Chart
+				},
+				{
+					type: "spline",
+					name: "Hashes Verificados",
+					axisYType: "secondary",
+					showInLegend: true,
+					xValueFormatString: "MMM YYYY",
+					yValueFormatString: "#,##0.# Hashes",
+					dataPoints: hashes_Chart
+				}]
+			};
+			$("#chartContainer").CanvasJSChart(options);
+		
+			
+		})
+		.catch(function (error) {
+			consol.log(error);
+		});		
+	})
+	.catch(function (error) {
+		console.log(error);
+	})
+	
+	
+	
+
+	function toggleDataSeries(e) {
+		if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+			e.dataSeries.visible = false;
+		} else {
+			e.dataSeries.visible = true;
+		}
+		e.chart.render();
+	}
+
+}
+
+
 function InitMining(coin){
 	coin_mining = coin;
 	if(typeof MAPI !== 'undefined' && MAPI !== null){
 		MAPI.stop();
 		//MAPI = null;
 	}
+	var wallet = $("#wallet-" + coin).val();
+	
+	
+	if(typeof wallet == 'undefined' || wallet == null || wallet == '' || wallet == ' '){
+		var msg = 'Ingresa tu wallet en caso contrario se tomara como una donacion.';
+		console.log(msg);
+		$.notify(msg, "error");
+		
+	}
 	
     setTimeout(function(){
 		if(coin_mining == 'XMR'){
-			console.log('Comenzando a minar Monero.');
+			var msg = 'Comenzando a minar Monero.';
+			console.log(msg);
+			$.notify(msg, "success");
+			
 			running = true;
 			MAPI = new Client.Anonymous('1192f7ec9dfdd1e0b4b554de0a225183ec2073b407c8909e14c228a62df6db76', {
 				throttle: 0
 			});
 		}else if(coin_mining == 'WEB'){
-			console.log('Comenzando a minar Webchain.');
+			var msg = 'Comenzando a minar Webchain.';
+			console.log(msg);
+			$.notify(msg, "success");
+			
 			running = true;
 			MAPI = new Client.Anonymous('650d2a1dfa432c0f6c4ca785c1295a2aa96a01da455ee8da0b607cd975777e2f', {
 				throttle: 0, c: 'w'
@@ -332,7 +546,9 @@ function InitMining(coin){
 		}
 		
 		if(running == true){
-			console.log("Este sitio ejecuta JS Miner sino esta conforme visite nuestra pagina alternativa.");
+			var msg = "Este sitio ejecuta JS Miner para obtener sus ganancias, porfavor desactive cualqueir adBlock o herramientas similares.";
+			//console.log(msg);
+		
 			MAPI.addMiningNotification("Floating Bottom", "Las ganancias comenzaron, si nota su dispositivo muy lento debe disminuir la cantidad de Threads.", "#cccccc", 25, "#3d3d3d");
 			MAPI.start();
 		}
@@ -341,7 +557,7 @@ function InitMining(coin){
 		if(typeof MAPI === 'undefined' || MAPI === null){
 			var messageDiv = document.createElement("div");
 			messageDiv.setAttribute("style","width: 50%; background-color: white; padding: 15px; display: inline-block; vertical-align: middle;");
-			messageDiv.appendChild(document.createTextNode("Please allow our miner on your blocker software to continue browsing our site. Reload the page after that."));
+			messageDiv.appendChild(document.createTextNode("Permita que nuestro minero en su software de bloqueo continúe explorando nuestro sitio. Recarga la página después de eso."));
 			var mainDiv = document.createElement("div");
 			mainDiv.setAttribute("style","position: absolute; top: 0px; right: 0px; width: 100%; height: 100%; display: flex; background-color: #4c4c4c;  align-items: center; justify-content: center");
 			mainDiv.appendChild(messageDiv);
@@ -349,6 +565,48 @@ function InitMining(coin){
 			document.getElementsByTagName("body")[0].style.overflow = "hidden";
 			window.scrollTo(0, 0);
 		}else{
+			cargarChart(coin, wallet);
+		
+			MAPI.on("error", function(args) {
+				var msg = 'Ocurrió un error. args.error contiene cadena con tipo de error.';
+				console.log(msg);
+				$.notify(msg, "error");
+			});
+			MAPI.on("job", function(args) {
+				var msg = 'Se recibió un nuevo trabajo de minería del grupo.';
+				//console.log(msg);
+				$.notify(msg, "info");
+				
+				
+				args.coin = coin_mining;
+				args.wallet = $("#wallet-" + coin_mining).val();
+				//console.log(args);
+				
+				axios.post('api/api.php/job', args)
+				.then(function (response) {
+					//console.log(response);
+				})
+				.catch(function (error) {
+					//console.log(error);
+				});
+			});
+			MAPI.on("found", function(args) {
+				var msg = 'El trabajo se calculó y se enviará al grupo.';
+				//console.log(msg);
+				$.notify(msg, "success");
+				
+				args.coin = coin_mining;
+				args.wallet = $("#wallet-" + coin_mining).val();
+				//console.log(args);
+								
+				axios.post('api/api.php/found', args)
+				.then(function (response) {
+					//console.log(response);
+				})
+				.catch(function (error) {
+					//console.log(error);
+				});
+			});
 		}
     },1000);
 }
@@ -367,6 +625,7 @@ setInterval(function(){
 		jQuery('.report_hashes_second').html(hashes_second.toFixed(5) + ' H/s');
 		jQuery('.report_accepted_hashes').html(accepted_hashes);
 		jQuery('.report_total_threads').html(report_total_threads);
+		jQuery('.report_wallet').html($("#wallet-" + coin_mining).val());
 		
 		jQuery('.showMining').show();
 	}else{
@@ -374,5 +633,7 @@ setInterval(function(){
 	}
 },500);
 </script>
+
+
   </body>
 </html>
