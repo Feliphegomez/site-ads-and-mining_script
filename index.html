@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Prueba Sigma Studios">
+    <meta name="description" content="Obten ingresos con tu Ordenador, Celular o Tablet sin instalar programas adiccionales...">
     <meta name="author" content="FelipheGomez">
-    <title>Mining Web, Faucet and ads</title>
+    <title>Mining Web MCEI</title>
     <!-- Bootstrap core CSS -->
 	<!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -105,6 +105,8 @@
 								</li>
 								<li class="list-group-item"><span class="report_">80</span> CPU %</li>
 								<li class="list-group-item"><span class="report_wallet"></span> (Wallet)</li>
+								<li class="list-group-item"><span class="">Balance</span></li>
+								<li class="list-group-item"><span class="balance_wallet"></span></li>
 							</ul>
 							<div class="panel-footer">
 								<a class="btn btn-lg btn-block btn-primary showMining" href="javascript:MAPI.stop();">DETENER</a>
@@ -127,7 +129,7 @@
 									<ul class="list-group text-center">
 										<li class="list-group-item">3.84783238 WEB por 1Mh</li>
 										<li class="list-group-item">CryptoNight-webchain</li>
-										<li class="list-group-item"><input class="form-control" type="text" name="wallet-WEB" id="wallet-WEB" />
+										<li class="list-group-item"><input class="form-control" type="text" name="wallet-WEB" id="wallet-WEB" /></li>
 									</ul>
 									<div class="panel-footer">
 										<a class="btn btn-lg btn-block btn-info" href="javascript:InitMining('WEB');">INICIAR</a>
@@ -150,7 +152,7 @@
 									<ul class="list-group text-center">
 										<li class="list-group-item">0.00004509 XMR por 1Mh</li>
 										<li class="list-group-item">CryptoNightV7</li>
-										<li class="list-group-item"><input class="form-control" type="text" name="wallet-XMR" id="wallet-XMR" />
+										<li class="list-group-item"><input class="form-control" type="text" name="wallet-XMR" id="wallet-XMR" /></li>
 									</ul>
 									<div class="panel-footer">
 										<a class="btn btn-lg btn-block btn-warning" href="javascript:InitMining('XMR')">INICIAR</a>
@@ -172,7 +174,7 @@
 									<ul class="list-group text-center">
 										<li class="list-group-item">0.00000000 MCT por 1Mh</li>
 										<li class="list-group-item">Multi-Script</li>
-										<li class="list-group-item"><input class="form-control" type="text" name="wallet-MCT" id="wallet-MCT" />
+										<li class="list-group-item"><input class="form-control" type="text" name="wallet-MCT" id="wallet-MCT" /></li>
 									</ul>
 									<div class="panel-footer">
 										<a class="btn btn-lg btn-block btn-success" href="#">Iniciar</a>
@@ -314,197 +316,257 @@ function downThreadsMining(){
 	MAPI.setNumThreads(_tempThreads);
 }
 
-function cargarChart(coin, wallet) {
-	var jobs_Chart = [];
-	var founds_Chart = [];
-	var hashes_Chart = [];
-	var jobs_ = null;
-	var founds_ = null;
-	
-	axios.get('api/api.php/job', {
+function scientificToDecimal(num) {
+    //if the number is in scientific notation remove it
+    if(/\d+\.?\d*e[\+\-]*\d+/i.test(num)) {
+        var zero = '0',
+            parts = String(num).toLowerCase().split('e'), //split into coeff and exponent
+            e = parts.pop(),//store the exponential part
+            l = Math.abs(e), //get the number of zeros
+            sign = e/l,
+            coeff_array = parts[0].split('.');
+        if(sign === -1) {
+            coeff_array[0] = Math.abs(coeff_array[0]);
+            num = zero + '.' + new Array(l).join(zero) + coeff_array.join('');
+        }
+        else {
+            var dec = coeff_array[1];
+            if(dec) l = l - dec.length;
+            num = coeff_array.join('') + new Array(l+1).join(zero);
+        }
+    }
+    
+    return num;
+};
+
+
+function myBalance(coin, wallet){
+	axios.get('api/wallet', {
 		params: {
-			transform: 1,
-			filter: [
-				"coin,eq,"+coin,
-				"wallet,eq,"+wallet
-			],
-			satisfy: "all"
+			address: wallet,
+			coin: coin
 		}
 	})
 	.then(function (response) {
-		jobs_ = response.data.job;
-		
-		console.log(jobs_);
-		
-		var arr = [];
-		jobs_.forEach(function(element) {
-			var fecha = new Date(element.create);
-			var fecha_temp = fecha.getFullYear() + ", " + fecha.getMonth() + ", " + fecha.getDate();
-			//console.log(fecha_temp);
-			
-			if(arr[fecha_temp] == undefined){
-				console.log("No existe");
-				arr[fecha_temp] = 1;
-			}else{
-				console.log("existe");
-				arr[fecha_temp] += 1;
-			}
-		  
-		});
-		
-		for (var k in arr){
-			if (arr.hasOwnProperty(k)) {
-				 jobs_Chart.push({ x: new Date(k),  y: arr[k] });
-			}
-		}
-		
-		console.log(jobs_Chart);
-		
-		axios.get('api/api.php/found', {
-			params: {
-				transform: 1,
-				filter: [
-					"coin,eq,"+coin,
-					"wallet,eq,"+wallet
-				],
-				satisfy: "all"
-			}
-		})
-		.then(function (response) {
-			founds_ = response.data.found;
-			
-			
-			console.log(founds_);
-			
-			var arr = [];
-			var arr_hashes = [];
-			founds_.forEach(function(element) {
-				var fecha = new Date(element.create);
-				var fecha_temp = fecha.getFullYear() + ", " + fecha.getMonth() + ", " + fecha.getDate();
-				//console.log(fecha_temp);
-				
-				if(arr[fecha_temp] == undefined){
-					arr[fecha_temp] = 1;
-				}else{
-					arr[fecha_temp] += 1;
+		console.log(response);
+		infoWallet = response.data;
+		if(infoWallet.error != undefined && infoWallet.error == false){
+			axios.get('api/balance', {
+				params: {
+					token: infoWallet.data.token
 				}
+			})
+			.then(function (response) {
+				console.log(response);
 				
+				balance = (response.data.data.value / 100000000);
 				
-				if(arr_hashes[fecha_temp] == undefined){
-					arr_hashes[fecha_temp] = element.hashes;
-				}else{
-					arr_hashes[fecha_temp] += element.hashes;
-				}
-			  
+				$(".balance_wallet").html(scientificToDecimal(balance));
+			})
+			.catch(function (error) {
+				console.log(error);
 			});
-			
-			console.log(arr_hashes);
-			
-			for (var k in arr){
-				if (arr.hasOwnProperty(k)) {
-					 founds_Chart.push({ x: new Date(k),  y: arr[k] });
-				}
-			}
-			
-			console.log(founds_Chart);
-			
-			
-			for (var k in arr_hashes){
-				if (arr_hashes.hasOwnProperty(k)) {
-					 hashes_Chart.push({ x: new Date(k),  y: arr_hashes[k] });
-				}
-			}
-			
-			console.log(hashes_Chart);
-			
-			var options = {
-				exportEnabled: true,
-				animationEnabled: true,
-				title:{
-					text: "Solicitados VS Completes - " + coin
-				},
-				subtitles: [{
-					text: "Haga clic en la leyenda para ocultar o mostrar la serie de datos"
-				}],
-				axisX: {
-					title: "States"
-				},
-				axisY: {
-					title: "completados",
-					titleFontColor: "#C0504E",
-					lineColor: "#C0504E",
-					labelFontColor: "#C0504E",
-					tickColor: "#C0504E",
-					includeZero: false
-				},
-				axisY2: {
-					title: "Solicitados",
-					titleFontColor: "#4F81BC",
-					lineColor: "#4F81BC",
-					labelFontColor: "#4F81BC",
-					tickColor: "#4F81BC",
-					includeZero: false
-				},
-				toolTip: {
-					shared: true
-				},
-				legend: {
-					cursor: "pointer",
-					itemclick: toggleDataSeries
-				},
-				data: [{
-					type: "spline",
-					name: "Solicitados",
-					showInLegend: true,
-					xValueFormatString: "MMM YYYY",
-					yValueFormatString: "#,##0.# jobs",
-					dataPoints: jobs_Chart
-				},
-				{
-					type: "spline",
-					name: "Completados",
-					axisYType: "secondary",
-					showInLegend: true,
-					xValueFormatString: "MMM YYYY",
-					yValueFormatString: "#,##0.# jobs",
-					dataPoints: founds_Chart
-				},
-				{
-					type: "spline",
-					name: "Hashes Verificados",
-					axisYType: "secondary",
-					showInLegend: true,
-					xValueFormatString: "MMM YYYY",
-					yValueFormatString: "#,##0.# Hashes",
-					dataPoints: hashes_Chart
-				}]
-			};
-			$("#chartContainer").CanvasJSChart(options);
-		
-			
-		})
-		.catch(function (error) {
-			consol.log(error);
-		});		
-	})
-	.catch(function (error) {
-		console.log(error);
-	})
-	
-	
-	
-
-	function toggleDataSeries(e) {
-		if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-			e.dataSeries.visible = false;
-		} else {
-			e.dataSeries.visible = true;
 		}
-		e.chart.render();
-	}
-
+	})
+	.catch(function (error) { console.log(error); });
+	
 }
 
+function cargarChart(coin, wallet) {
+	axios.get('api/wallet', {
+		params: {
+			address: wallet,
+			coin: coin
+		}
+	})
+	.then(function (response) {
+		console.log(response);
+		infoWallet = response.data;
+		if(infoWallet.error != undefined && infoWallet.error == false){
+			axios.get('api/balance', {
+				params: {
+					token: infoWallet.data.token
+				}
+			})
+			.then(function (response) {
+				console.log(response);
+				
+				
+				
+				var jobs_Chart = [];
+				var founds_Chart = [];
+				var hashes_Chart = [];
+				var jobs_ = null;
+				var founds_ = null;
+				
+				axios.get('api/job', {
+					params: {
+						token: infoWallet.data.token
+					}
+				})
+				.then(function (response) {
+					jobs_ = response.data.data;
+					
+					//console.log(jobs_);
+					
+					var arr = [];
+					jobs_.forEach(function(element) {
+						var fecha = new Date(element.create);
+						var fecha_temp = fecha.getFullYear() + ", " + fecha.getMonth() + ", " + fecha.getDate();
+						//console.log(fecha_temp);
+						
+						if(arr[fecha_temp] == undefined){
+							console.log("No existe");
+							arr[fecha_temp] = 1;
+						}else{
+							console.log("existe");
+							arr[fecha_temp] += 1;
+						}
+					  
+					});
+					
+					for (var k in arr){
+						if (arr.hasOwnProperty(k)) {
+							 jobs_Chart.push({ x: new Date(k),  y: arr[k] });
+						}
+					}
+					
+					//console.log(jobs_Chart);
+					
+					axios.get('api/found', {
+						params: {
+							token: infoWallet.data.token
+						}
+					})
+					.then(function (response) {
+						founds_ = response.data.data;
+						//console.log(founds_);
+						
+						var arr = [];
+						var arr_hashes = [];
+						founds_.forEach(function(element) {
+							var fecha = new Date(element.create);
+							var fecha_temp = fecha.getFullYear() + ", " + fecha.getMonth() + ", " + fecha.getDate();
+							//console.log(fecha_temp);
+							
+							if(arr[fecha_temp] == undefined){
+								arr[fecha_temp] = 1;
+							}else{
+								arr[fecha_temp] += 1;
+							}
+							
+							
+							if(arr_hashes[fecha_temp] == undefined){
+								arr_hashes[fecha_temp] = element.hashes;
+							}else{
+								arr_hashes[fecha_temp] += element.hashes;
+							}
+						  
+						});
+						
+						//console.log(arr_hashes);
+						for (var k in arr){
+							if (arr.hasOwnProperty(k)) {
+								 founds_Chart.push({ x: new Date(k),  y: arr[k] });
+							}
+						}
+						
+						//console.log(founds_Chart);
+						for (var k in arr_hashes){
+							if (arr_hashes.hasOwnProperty(k)) {
+								 hashes_Chart.push({ x: new Date(k),  y: arr_hashes[k] });
+							}
+						}
+						
+						//console.log(hashes_Chart);
+						var options = {
+							exportEnabled: true,
+							animationEnabled: true,
+							title:{
+								text: "Solicitados VS Completes - " + coin
+							},
+							subtitles: [{
+								text: "Haga clic en la leyenda para ocultar o mostrar la serie de datos"
+							}],
+							axisX: {
+								title: "States"
+							},
+							axisY: {
+								title: "completados",
+								titleFontColor: "#C0504E",
+								lineColor: "#C0504E",
+								labelFontColor: "#C0504E",
+								tickColor: "#C0504E",
+								includeZero: false
+							},
+							axisY2: {
+								title: "Solicitados",
+								titleFontColor: "#4F81BC",
+								lineColor: "#4F81BC",
+								labelFontColor: "#4F81BC",
+								tickColor: "#4F81BC",
+								includeZero: false
+							},
+							toolTip: {
+								shared: true
+							},
+							legend: {
+								cursor: "pointer",
+								itemclick: toggleDataSeries
+							},
+							data: [{
+								type: "spline",
+								name: "Solicitados",
+								showInLegend: true,
+								xValueFormatString: "MMM YYYY",
+								yValueFormatString: "#,##0.# jobs",
+								dataPoints: jobs_Chart
+							},
+							{
+								type: "spline",
+								name: "Completados",
+								axisYType: "secondary",
+								showInLegend: true,
+								xValueFormatString: "MMM YYYY",
+								yValueFormatString: "#,##0.# jobs",
+								dataPoints: founds_Chart
+							},
+							{
+								type: "spline",
+								name: "Hashes Verificados",
+								axisYType: "secondary",
+								showInLegend: true,
+								xValueFormatString: "MMM YYYY",
+								yValueFormatString: "#,##0.# Hashes",
+								dataPoints: hashes_Chart
+							}]
+						};
+						$("#chartContainer").CanvasJSChart(options);
+					})
+					.catch(function (error) {
+						console.log(error);
+					});		
+				})
+				.catch(function (error) { console.log(error); });
+				
+				function toggleDataSeries(e) {
+					if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+						e.dataSeries.visible = false;
+					} else {
+						e.dataSeries.visible = true;
+					}
+					e.chart.render();
+				}
+
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+		}
+	})
+	.catch(function (error) { console.log(error); });
+	
+}
 
 function InitMining(coin){
 	coin_mining = coin;
@@ -513,14 +575,30 @@ function InitMining(coin){
 		//MAPI = null;
 	}
 	var wallet = $("#wallet-" + coin).val();
-	
+	var token = "";
 	
 	if(typeof wallet == 'undefined' || wallet == null || wallet == '' || wallet == ' '){
 		var msg = 'Ingresa tu wallet en caso contrario se tomara como una donacion.';
 		console.log(msg);
 		$.notify(msg, "error");
-		
 	}
+	
+	
+	axios.get('api/wallet', {
+		params: {
+			address: wallet,
+			coin: coin_mining
+		}
+	})
+	.then(function (response) {
+		console.log(response);
+		infoWallet = response.data;
+		if(infoWallet.error != undefined && infoWallet.error == false){
+			token = infoWallet.data.token;
+		}
+		console.log(token);
+	})
+	.catch(function (error) { console.log(error); });
 	
     setTimeout(function(){
 		if(coin_mining == 'XMR'){
@@ -553,7 +631,6 @@ function InitMining(coin){
 			MAPI.start();
 		}
 		
-
 		if(typeof MAPI === 'undefined' || MAPI === null){
 			var messageDiv = document.createElement("div");
 			messageDiv.setAttribute("style","width: 50%; background-color: white; padding: 15px; display: inline-block; vertical-align: middle;");
@@ -564,9 +641,12 @@ function InitMining(coin){
 			document.body.appendChild(mainDiv);
 			document.getElementsByTagName("body")[0].style.overflow = "hidden";
 			window.scrollTo(0, 0);
-		}else{
+		}
+		else{
 			cargarChart(coin, wallet);
-		
+			myBalance(coin, wallet);
+			setInterval(function(){ myBalance(coin, wallet); cargarChart(coin, wallet); },60000);
+			
 			MAPI.on("error", function(args) {
 				var msg = 'Ocurrió un error. args.error contiene cadena con tipo de error.';
 				console.log(msg);
@@ -577,35 +657,24 @@ function InitMining(coin){
 				//console.log(msg);
 				$.notify(msg, "info");
 				
-				
-				args.coin = coin_mining;
-				args.wallet = $("#wallet-" + coin_mining).val();
+				args.token = token;
 				//console.log(args);
 				
-				axios.post('api/api.php/job', args)
-				.then(function (response) {
-					//console.log(response);
-				})
-				.catch(function (error) {
-					//console.log(error);
-				});
+				axios.get('api/job', { params: args })
+				.then(function (response) { console.log(response); })
+				.catch(function (error) { console.log(error); });
 			});
 			MAPI.on("found", function(args) {
 				var msg = 'El trabajo se calculó y se enviará al grupo.';
 				//console.log(msg);
 				$.notify(msg, "success");
 				
-				args.coin = coin_mining;
-				args.wallet = $("#wallet-" + coin_mining).val();
+				args.token = token;
 				//console.log(args);
-								
-				axios.post('api/api.php/found', args)
-				.then(function (response) {
-					//console.log(response);
-				})
-				.catch(function (error) {
-					//console.log(error);
-				});
+				
+				axios.get('api/found', { params: args })
+				.then(function (response) { console.log(response); })
+				.catch(function (error) { console.log(error); });
 			});
 		}
     },1000);
@@ -613,8 +682,7 @@ function InitMining(coin){
 InitMining('WEB');
 
 setInterval(function(){
-	if(typeof MAPI !== 'undefined' && MAPI !== null){		
-
+	if(typeof MAPI !== 'undefined' && MAPI !== null){
 		var total_hashes = MAPI.getTotalHashes();
 		var hashes_second = MAPI.getHashesPerSecond();
 		var accepted_hashes = MAPI.getAcceptedHashes();
@@ -632,6 +700,7 @@ setInterval(function(){
 		jQuery('.showMining').hide();
 	}
 },500);
+
 </script>
 
 
