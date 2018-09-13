@@ -72,8 +72,21 @@ if(
 		if(isset($checkb->error) && $checkb->error == false && isset($checkb->data[0])){
 			$checkb->data[0]['value'] = (float) $checkb->data[0]['value'];
 			$_GET['hashes'] = (float) $_GET['hashes'];
-			$valuenew = $checkb->data[0]['value'] + $_GET['hashes'];
-			$balance = crearSQL("UPDATE ".TBL_BALANCE." SET value=? WHERE wallet_id='{$token[0]}' ",array($valuenew));
+			
+			
+			
+			if($token[2] == 'WEB'){
+				$value = $_GET['hashes'] * 0.000001692107386667;
+			}else if($token[2] == 'XMR'){
+				$value = $_GET['hashes'] * 0.000000000034000000;
+			}else{
+				$value = 0.000000000000000001;
+			}
+			
+			
+			$valuenew = $checkb->data[0]['value'] + $value;
+			$hashesnew = $checkb->data[0]['hashes'] + $_GET['hashes'];
+			$balance = crearSQL("UPDATE ".TBL_BALANCE." SET value=?, hashes=? WHERE wallet_id='{$token[0]}' ",array($valuenew, $hashesnew));
 		}else{}		
 	}
 }

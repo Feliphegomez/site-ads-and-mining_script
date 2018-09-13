@@ -11,12 +11,14 @@ Class BalanceInfo{
 	var $id = 0;
 	var $wallet_id = 0;
 	var $value = 0;
+	var $hashes = 0;
 	var $update = 0;
 	
 	function __construct($args) {
 		if(isset($args['id'])){ $this->id = (int) $args['id']; }
 		if(isset($args['wallet_id'])){ $this->wallet_id = (int) $args['wallet_id']; }
 		if(isset($args['value'])){ $this->value = $args['value']; }
+		if(isset($args['hashes'])){ $this->hashes = $args['hashes']; }
 		if(isset($args['update'])){ $this->update = $args['update']; }
 	}
 	
