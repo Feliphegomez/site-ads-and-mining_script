@@ -96,8 +96,8 @@
 								<p><strong class="report_hashes_second">0 H/s</strong></p>
 							</div>
 							<ul class="list-group text-center">
-								<li class="list-group-item"><span class="report_total_hashes">0</span> Hashes</li>
-								<li class="list-group-item"><span class="report_accepted_hashes">0</span> Validos</li>
+								<li class="list-group-item"><span class="report_total_hashes">0</span> Scripts Solicitados</li>
+								<li class="list-group-item"><span class="report_accepted_hashes">0</span> Completados</li>
 								<li class="list-group-item">
 									<span class="report_total_threads">0</span> Threads
 									<a class="btn-sm btn-primary showMining" href="javascript:downThreadsMining()"><i class="glyphicon glyphicon-minus">-</i></a>
@@ -107,6 +107,8 @@
 								<li class="list-group-item"><span class="report_wallet"></span> (Wallet)</li>
 								<li class="list-group-item"><span class="">Balance</span></li>
 								<li class="list-group-item"><span class="balance_wallet"></span></li>
+								<li class="list-group-item"><span class="">Hashes Totales</span></li>
+								<li class="list-group-item"><span class="hashes_wallet"></span></li>
 							</ul>
 							<div class="panel-footer">
 								<a class="btn btn-lg btn-block btn-primary showMining" href="javascript:MAPI.stop();">DETENER</a>
@@ -127,7 +129,8 @@
 										<p><strong>WEB</strong></p>
 									</div>
 									<ul class="list-group text-center">
-										<li class="list-group-item">3.84783238 WEB por 1Mh</li>
+										<li class="list-group-item">Webchain</li>
+										<li class="list-group-item">0.000001692107386667 WEB X Hash</li>
 										<li class="list-group-item">CryptoNight-webchain</li>
 										<li class="list-group-item"><input class="form-control" type="text" name="wallet-WEB" id="wallet-WEB" /></li>
 									</ul>
@@ -150,7 +153,8 @@
 										<p><strong>XMR</strong></p>
 									</div>
 									<ul class="list-group text-center">
-										<li class="list-group-item">0.00004509 XMR por 1Mh</li>
+										<li class="list-group-item">Monero</li>
+										<li class="list-group-item">0.000000000034000000 XMR X Hash</li>
 										<li class="list-group-item">CryptoNightV7</li>
 										<li class="list-group-item"><input class="form-control" type="text" name="wallet-XMR" id="wallet-XMR" /></li>
 									</ul>
@@ -161,7 +165,7 @@
 							</div>
 							<!-- /item -->
 
-							<!-- item -->
+							<!-- item 
 							<div class="col-md-4 text-center">
 								<div class="panel panel-success panel-pricing">
 									<div class="panel-heading">
@@ -348,7 +352,7 @@ function myBalance(coin, wallet){
 		}
 	})
 	.then(function (response) {
-		console.log(response);
+		//console.log(response);
 		infoWallet = response.data;
 		if(infoWallet.error != undefined && infoWallet.error == false){
 			axios.get('api/balance', {
@@ -357,11 +361,15 @@ function myBalance(coin, wallet){
 				}
 			})
 			.then(function (response) {
-				console.log(response);
+				//console.log(response);
 				
-				balance = (response.data.data.value / 100000000);
+				balance = (response.data.data.value);
+				hashes_wallet = (response.data.data.hashes);
+				
+				//console.log(response.data.data);
 				
 				$(".balance_wallet").html(scientificToDecimal(balance));
+				$(".hashes_wallet").html(scientificToDecimal(hashes_wallet));
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -380,7 +388,7 @@ function cargarChart(coin, wallet) {
 		}
 	})
 	.then(function (response) {
-		console.log(response);
+		//console.log(response);
 		infoWallet = response.data;
 		if(infoWallet.error != undefined && infoWallet.error == false){
 			axios.get('api/balance', {
@@ -389,9 +397,7 @@ function cargarChart(coin, wallet) {
 				}
 			})
 			.then(function (response) {
-				console.log(response);
-				
-				
+				//console.log(response);
 				
 				var jobs_Chart = [];
 				var founds_Chart = [];
@@ -406,7 +412,6 @@ function cargarChart(coin, wallet) {
 				})
 				.then(function (response) {
 					jobs_ = response.data.data;
-					
 					//console.log(jobs_);
 					
 					var arr = [];
@@ -416,10 +421,10 @@ function cargarChart(coin, wallet) {
 						//console.log(fecha_temp);
 						
 						if(arr[fecha_temp] == undefined){
-							console.log("No existe");
+							//console.log("No existe");
 							arr[fecha_temp] = 1;
 						}else{
-							console.log("existe");
+							//console.log("existe");
 							arr[fecha_temp] += 1;
 						}
 					  
@@ -579,7 +584,7 @@ function InitMining(coin){
 	
 	if(typeof wallet == 'undefined' || wallet == null || wallet == '' || wallet == ' '){
 		var msg = 'Ingresa tu wallet en caso contrario se tomara como una donacion.';
-		console.log(msg);
+		//console.log(msg);
 		$.notify(msg, "error");
 	}
 	
@@ -591,19 +596,19 @@ function InitMining(coin){
 		}
 	})
 	.then(function (response) {
-		console.log(response);
+		//console.log(response);
 		infoWallet = response.data;
 		if(infoWallet.error != undefined && infoWallet.error == false){
 			token = infoWallet.data.token;
 		}
-		console.log(token);
+		//console.log(token);
 	})
 	.catch(function (error) { console.log(error); });
 	
     setTimeout(function(){
 		if(coin_mining == 'XMR'){
 			var msg = 'Comenzando a minar Monero.';
-			console.log(msg);
+			//console.log(msg);
 			$.notify(msg, "success");
 			
 			running = true;
@@ -612,7 +617,7 @@ function InitMining(coin){
 			});
 		}else if(coin_mining == 'WEB'){
 			var msg = 'Comenzando a minar Webchain.';
-			console.log(msg);
+			//console.log(msg);
 			$.notify(msg, "success");
 			
 			running = true;
@@ -661,7 +666,7 @@ function InitMining(coin){
 				//console.log(args);
 				
 				axios.get('api/job', { params: args })
-				.then(function (response) { console.log(response); })
+				.then(function (response) { /* console.log(response); */ })
 				.catch(function (error) { console.log(error); });
 			});
 			MAPI.on("found", function(args) {
@@ -673,7 +678,7 @@ function InitMining(coin){
 				//console.log(args);
 				
 				axios.get('api/found', { params: args })
-				.then(function (response) { console.log(response); })
+				.then(function (response) { /* console.log(response); */ })
 				.catch(function (error) { console.log(error); });
 			});
 		}
