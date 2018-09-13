@@ -5,43 +5,6 @@ $jsonFinal = new stdClass();
 $jsonFinal->error = true;
 $jsonFinal->data = null;
 
-Class FoundInfo{
-	var $id = 0;
-	var $wallet_id = 0;
-	var $job_id = '';
-	var $hashes = 0;
-	var $hashesPerSecond = 0;
-	var $nonce = '';
-	var $result = '';
-	var $create = 0;
-	
-	function __construct($args) {
-		if(isset($args['id'])){ $this->id = (int) $args['id']; }
-		if(isset($args['wallet_id'])){ $this->wallet_id = (int) $args['wallet_id']; }
-		if(isset($args['job_id'])){ $this->job_id = $args['job_id']; }
-		if(isset($args['hashes'])){ $this->hashes = $args['hashes']; }
-		if(isset($args['hashesPerSecond'])){ $this->hashesPerSecond = $args['hashesPerSecond']; }
-		if(isset($args['nonce'])){ $this->nonce = $args['nonce']; }
-		if(isset($args['result'])){ $this->result = $args['result']; }
-		if(isset($args['create'])){ $this->create = $args['create']; }
-	}
-	
-}
-
-function foundsWallet($token){
-	$token = decodeToken($token);
-	
-	$check = datosSQL("Select * from ".TBL_FOUND." where wallet_id='{$token[0]}'");
-	if(isset($check->error) && $check->error == false && isset($check->data[0])){
-		$r = array();
-		foreach($check->data As $item){
-			$r[] = new FoundInfo($item);
-		}
-		return $r;
-	}else{
-		return (array());
-	}
-}
 
 # --------------------------- --------------------------- --------------------------- #
 if(

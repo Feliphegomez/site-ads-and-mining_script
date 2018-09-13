@@ -1,5 +1,7 @@
 <?php
 
+include('models/global.php');
+
 define("DB_SERVER", "localhost");
 define("DB_USER", "root");
 define("DB_PASS", "");
@@ -36,6 +38,7 @@ define('TBL_WALLET', 'wallet'); // tabla de
 define('TBL_JOB', 'job'); // tabla de 
 define('TBL_FOUND', 'found'); // tabla de 
 define('TBL_BALANCE', 'balance'); // tabla de 
+define('TBL_WITHDRAW', 'withdraw'); // tabla de 
 
 
 
@@ -151,6 +154,47 @@ function infoWallet($coin, $wallet){
 }
 
 
+function balanceWallet($token){
+	$token = decodeToken($token);
+	
+	$check = datosSQL("Select * from ".TBL_BALANCE." where wallet_id='{$token[0]}'");
+	if(isset($check->error) && $check->error == false && isset($check->data[0])){
+		return new BalanceInfo($check->data[0]);
+	}else{
+		return (array());
+	}
+}
+
+
+function foundsWallet($token){
+	$token = decodeToken($token);
+	
+	$check = datosSQL("Select * from ".TBL_FOUND." where wallet_id='{$token[0]}'");
+	if(isset($check->error) && $check->error == false && isset($check->data[0])){
+		$r = array();
+		foreach($check->data As $item){
+			$r[] = new FoundInfo($item);
+		}
+		return $r;
+	}else{
+		return (array());
+	}
+}
+
+function jobsWallet($token){
+	$token = decodeToken($token);
+	
+	$check = datosSQL("Select * from ".TBL_JOB." where wallet_id='{$token[0]}'");
+	if(isset($check->error) && $check->error == false && isset($check->data[0])){
+		$r = array();
+		foreach($check->data As $item){
+			$r[] = new JobInfo($item);
+		}
+		return $r;
+	}else{
+		return (array());
+	}
+}
 
 
 

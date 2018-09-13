@@ -28,10 +28,10 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto bg-principal" style="border-radius: 35px;">
-              <li class="nav-item active"><a class="nav-link" href="#page1">Mining</a></li>
+              <!-- <li class="nav-item active"><a class="nav-link" href="#page1">Mining</a></li> -->
               <li class="nav-item"><a class="nav-link" href="#page2">FAQ</a></li>
               <li class="nav-item"><a class="nav-link" href="#page3">Team</a></li>
-              <li class="nav-item"><a class="btn btn-transparent btn-default" href="#carouselExampleIndicators">Top</a></li>
+              <li class="nav-item"><a class="btn btn-transparent btn-default" href="#page1">Iniciar</a></li>
               <li class="nav-item"><a class="btn btn-transparent" href="#page4">Dashboard</a></li>
             </ul>
           </div>
@@ -112,13 +112,14 @@
 							</ul>
 							<div class="panel-footer">
 								<a class="btn btn-lg btn-block btn-primary showMining" href="javascript:MAPI.stop();">DETENER</a>
+								<a id="btn-myWithdraw" class="btn btn-lg btn-block btn-primary showMining" href="javascript:myPayment();">Retirar</a>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-8">
 						<div class="row">
 							<!-- item -->
-							<div class="col-md-4 text-center">
+							<div class="col-md-6 text-center">
 								<div class="panel panel-info panel-pricing">
 									<div class="panel-heading">
 										<i class="fa fa-desktop"></i>
@@ -144,7 +145,7 @@
 							<!-- /item -->
 
 							<!-- item -->
-							<div class="col-md-4 text-center">
+							<div class="col-md-6 text-center">
 								<div class="panel panel-warning panel-pricing">
 									<div class="panel-heading">
 										<i class="fa fa-desktop"></i>
@@ -575,6 +576,43 @@ function cargarChart(coin, wallet) {
 	
 }
 
+function myPayment(token){
+	axios.get('api/wallet', {
+		params: {
+			token: token
+		}
+	})
+	.then(function (response) {
+		infoWallet = response.data;
+		
+		if(infoWallet.error != undefined && infoWallet.error == false){
+			console.log(infoWallet);
+			
+			if(infoWallet.data.balance >= infoWallet.data.minPay){
+				console.log("OK");
+				axios.get('api/payment', {
+					params: {
+						token: token
+					}
+				})
+				.then(function (response) {
+					console.log(response);
+					infoPay = response.data;
+					if(infoPay.error == false){
+						$.notify('El pago esta siendo procesado...', "success");
+					}
+				})
+				.catch(function (error) { console.log(error); });
+			}else{
+				console.log("KO");
+				$.notify('No tienes la cantidad minima de retiro requerida', "error");
+			}
+		}
+		//console.log(token);
+	})
+	.catch(function (error) { console.log(error); });
+};
+
 function InitMining(coin){
 	coin_mining = coin;
 	if(typeof MAPI !== 'undefined' && MAPI !== null){
@@ -601,6 +639,8 @@ function InitMining(coin){
 		infoWallet = response.data;
 		if(infoWallet.error != undefined && infoWallet.error == false){
 			token = infoWallet.data.token;
+			
+			jQuery("#btn-myWithdraw").attr('href', "javascript:myPayment('" + token + "')");
 		}
 		//console.log(token);
 	})
