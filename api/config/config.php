@@ -39,6 +39,7 @@ define('TBL_JOB', 'job'); // tabla de
 define('TBL_FOUND', 'found'); // tabla de 
 define('TBL_BALANCE', 'balance'); // tabla de 
 define('TBL_WITHDRAW', 'withdraw'); // tabla de 
+define('TBL_ADMIN', 'admins'); // tabla de 
 
 
 
@@ -131,6 +132,20 @@ function decodeToken($token){
 	return explode(':', base64_decode($token));
 }
 	
+function walletForId($idWallet){
+	$wallet = new stdClass();
+	$wallet->address = "";
+	$wallet->coin = "";
+	
+	$check = datosSQL("Select * from ".TBL_WALLET." where id='{$idWallet}' ");
+	if(isset($check->error) && $check->error == false && isset($check->data[0])){
+		if($check->data[0]['address'] == ''){ $check->data[0]['address'] = 'Donation'; }
+		$wallet->address = $check->data[0]['address'];
+		$wallet->coin = $check->data[0]['coin'];
+	}
+	return $wallet;
+}
+
 function infoWallet($coin, $wallet){
 	$check = datosSQL("Select * from ".TBL_WALLET." where address='{$wallet}' and coin='{$coin}'");
 	
@@ -153,7 +168,6 @@ function infoWallet($coin, $wallet){
 	}
 }
 
-
 function balanceWallet($token){
 	$token = decodeToken($token);
 	
@@ -164,7 +178,6 @@ function balanceWallet($token){
 		return (array());
 	}
 }
-
 
 function foundsWallet($token){
 	$token = decodeToken($token);
@@ -196,7 +209,58 @@ function jobsWallet($token){
 	}
 }
 
-
+function AdminEstadisticasDate($dateinicio, $datefin){	
+	$ret = new stdClass();
+	$ret->jobs = array();
+	$ret->founds = array();
+	$ret->orphan = 0;
+	$ret->users = 0;
+	$ret->total_hashes = 0;
+	$ret->payment = 0;
+	$ret->payment_pdte = 0;
+	$ret->payment_pdte_value = 0;
+	$ret->payment_value = 0;
+	
+	$check = datosSQL("Select * from ".TBL_FOUND." where `create` >= ('{$datefin}') OR wallet_id='1' AND `create` <= ('{$dateinicio}')");
+	if(isset($check->error) && $check->error == false && isset($check->data[0])){
+		foreach($check->data As $item){
+			$ret->founds[] = new FoundInfo($item);
+			$ret->total_hashes = $ret->total_hashes + (float) $item['hashes'];
+		}
+	}
+	$check = datosSQL("Select * from ".TBL_JOB." where `create` >= ('{$datefin}') OR wallet_id='1' AND `create` <= ('{$dateinicio}')");
+	if(isset($check->error) && $check->error == false && isset($check->data[0])){
+		foreach($check->data As $item){ $ret->jobs[] = new JobInfo($item); }
+	}
+	$ret->orphan = 100 - ((count($ret->founds) * 100) / count($ret->jobs));
+	
+	
+	$check = datosSQL("Select * from ".TBL_BALANCE." where `update` >= ('{$datefin}') OR `update` <= ('{$dateinicio}') group by wallet_id");
+	if(isset($check->error) && $check->error == false && isset($check->data[0])){ $ret->users = count($check->data); }
+	
+	$check = datosSQL("Select * from ".TBL_WITHDRAW." where `status` = ('1')");
+	if(isset($check->error) && $check->error == false && isset($check->data[0])){
+		$ret->payment = count($check->data);
+		foreach($check->data As $item){
+			$item['request'] = (float) $item['request'];
+			
+			$ret->payment_value = $ret->payment_value + $item['request'];
+		}
+	}
+	
+	$check = datosSQL("Select * from ".TBL_WITHDRAW." where `status` = ('0')");
+	if(isset($check->error) && $check->error == false && isset($check->data[0])){
+		$ret->payment_pdte = count($check->data);
+		foreach($check->data As $item){
+			$item['request'] = (float) $item['request'];
+			
+			$ret->payment_pdte_value = $ret->payment_pdte_value + $item['request'];
+		}
+	}
+	
+	
+	return $ret;
+}
 
 #################### ------------------------------------- ------------------------------------- ####################
 

@@ -93,8 +93,11 @@ Class WalletInfo{
 }
 
 Class PaymentInfo{
+	private $wallet;
 	var $id = 0;
 	var $wallet_id = 0;
+	var $wallet_address = "";
+	var $wallet_coin = "";
 	var $request = 0;
 	var $fee = 0;
 	var $totalPaid = 0;
@@ -114,6 +117,9 @@ Class PaymentInfo{
 		if(isset($args['create'])){ $this->create = $args['create']; }
 		if(isset($args['update'])){ $this->update = $args['update']; }
 		
+		$wallet = walletForId($args['wallet_id']);
+		if(isset($wallet->coin)){ $this->wallet_coin = $wallet->coin; }
+		if(isset($wallet->address)){ $this->wallet_address = $wallet->address; }
 	}
 }
 
