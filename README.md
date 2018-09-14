@@ -2,7 +2,7 @@
 
 ## About
 
-This is an example of a website using CoinIMP.com and MCEN-Investment.com as servers / code providers.
+This is an example of a website using CoinIMP.com as servers / code providers.
 Knowledge is required in:
 
 - Vue
