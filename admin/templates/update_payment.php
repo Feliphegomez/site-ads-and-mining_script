@@ -45,7 +45,7 @@
 	<div class="col-md-12">
 		<div class="card text-center card  bg-default mb-3">
 			<div class="card-header">
-				Ultimos Pagos
+				Actualizar Pagos
 			</div>
 			<div class="card-body">
 				<table class="table table-responsive">
