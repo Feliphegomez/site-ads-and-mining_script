@@ -11,6 +11,7 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet">
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
   </head>
 
@@ -103,7 +104,20 @@
 									<a class="btn-sm btn-primary showMining" href="javascript:downThreadsMining()"><i class="glyphicon glyphicon-minus">-</i></a>
 									<a class="btn-sm btn-primary showMining" href="javascript:upThreadsMining()"><i class="glyphicon glyphicon-plus">+</i></a>
 								</li>
-								<li class="list-group-item"><span class="report_">80</span> CPU %</li>
+								<li class="list-group-item">
+									<select class="form-control" id="select-threads">
+										<option value="0">100%</option>
+										<option value="0.1">90%</option>
+										<option value="0.2" selected>80%</option>
+										<option value="0.3">70%</option>
+										<option value="0.4">60%</option>
+										<option value="0.5">50%</option>
+										<option value="0.6">40%</option>
+										<option value="0.7">30%</option>
+										<option value="0.8">20%</option>
+										<option value="0.9">10%</option>
+									</select>
+								</li>
 								<li class="list-group-item"><span class="report_wallet"></span> (Wallet)</li>
 								<li class="list-group-item"><span class="">Balance</span></li>
 								<li class="list-group-item"><span class="balance_wallet"></span></li>
@@ -193,15 +207,81 @@
 							<!-- /item -->
 						</div>
 					</div>
+					<div class="col-md-12">
+						<br>
+						<br>
+						<h1 class="cover-heading">Estadisticas</h1> 
+						
+						<div id="chartContainer" style="height: 450px; width: 100%;"></div>
+						
+					</div>
 				</div>
 			</div>
 		</section>
 		<section id="page4" class="py-5 color-1">
-		  <div class="cover">
-			<h1 class="cover-heading">Dashboard</h1> 
-			
-			<div id="chartContainer" style="height: 450px; width: 100%;"></div>
-		  </div>
+			<div class="container">
+				<h1 class="title-1">Estadisicas Globales</h1>
+				<div class="row dashboard-stats">
+					<div class="col-md-3 col-sm-6">
+						<section class="panel panel-box">
+							<div class="panel-left panel-icon bg-success">
+								<i class="fa fa-users text-large stat-icon success-text"></i>
+							</div>
+							<div class="panel-right panel-icon bg-reverse">
+								<p class="size-h1 no-margin" id="r-users">0</p>
+								<p class="text-muted no-margin text"><span>Usuarios</span></p>
+							</div>
+						</section>
+					</div>
+					<div class="col-md-3 col-sm-6">
+						<section class="panel panel-box">
+							<div class="panel-left panel-icon bg-info">
+								<i class="fa fa-check-circle-o text-large stat-icon info-text"></i>
+							</div>
+							<div class="panel-right panel-icon bg-reverse">
+								<p class="size-h1 no-margin" id="r-total_found_hashes">0</p>
+								<p class="text-muted no-margin text"><span>Hashes Verificados</span></p>
+							</div>
+						</section>
+					</div>
+					<div class="col-md-3 col-sm-6">
+						<section class="panel panel-box">
+							<div class="panel-left panel-icon bg-danger">
+								<i class="fa fa-check-circle-o text-large stat-icon danger-text"></i>
+							</div>
+							<div class="panel-right panel-icon bg-reverse">
+								<p class="size-h1 no-margin" id="r-total_founds">0</p>
+								<p class="text-muted no-margin text"><span>Completados</span></p>
+							</div>
+						</section>
+					</div>
+					<div class="col-md-3 col-sm-6">
+						<section class="panel panel-box">
+							<div class="panel-left panel-icon bg-warning">
+								<i class="fa fa-money text-large stat-icon warning-text"></i>
+							</div>
+							<div class="panel-right panel-icon bg-reverse">
+								<p class="size-h1 no-margin" id="r-total_payment">0</p>
+								<p class="text-muted no-margin text"><span>Pagos Realizados</span></p>
+							</div>
+						</section>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<table class="table table-responsive" id="table-body-payment">
+							<tr>
+								<th></th>
+							</tr>
+							<tbody>
+								<tr>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 		</section>  
       
       <section id="page2" class="py-5 color-2">
@@ -239,18 +319,8 @@
       
       <section id="page3" class="py-5 color-3">
         <div class="container">
-            <div id="SC_TBlock_564347" class="SC_TBlock">loading...</div> 
-			<script type="text/javascript">
-				(sc_adv_out = window.sc_adv_out || []).push(
-					{
-						id : "564347",
-						domain : "n.tckn-code.com"
-					}
-				);
-			</script>
-			<script type="text/javascript" src="//st-n.tckn-code.com/js/a.js"></script>
-
-        </div>
+			<h1>Recomendamos</h1>
+		</div>
       </section>
        
     </div>
@@ -260,7 +330,7 @@
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<script src="js/bootbox.min.js"></script>
 	<script src="js/notify.js"></script>
-			<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+	<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
     <!-- Vue core JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -635,7 +705,7 @@ function InitMining(coin){
 			
 			running = true;
 			MAPI = new Client.Anonymous('1192f7ec9dfdd1e0b4b554de0a225183ec2073b407c8909e14c228a62df6db76', {
-				throttle: 0
+				throttle: $( "#select-threads option:selected" ).val()
 			});
 		}else if(coin_mining == 'WEB'){
 			var msg = 'Comenzando a minar Webchain.';
@@ -644,7 +714,7 @@ function InitMining(coin){
 			
 			running = true;
 			MAPI = new Client.Anonymous('650d2a1dfa432c0f6c4ca785c1295a2aa96a01da455ee8da0b607cd975777e2f', {
-				throttle: 0, c: 'w'
+				throttle: $( "#select-threads option:selected" ).val(), c: 'w'
 			});
 		}else if(coin_mining == 'MCT'){
 			
@@ -728,7 +798,133 @@ setInterval(function(){
 	}
 },500);
 
+function cargarEstadisticasGlobales(){
+	axios.get('api/payment', {  })
+	.then(function (response) {
+		var stads = response.data;
+		
+		if(stads.error != undefined && stads.error == false){
+			stads = response.data.data;
+			console.log(stads);
+			
+			jQuery("#r-users").html(stads.users);
+			jQuery("#r-total_found_hashes").html(stads.total_found_hashes);
+			jQuery("#r-total_founds").html(stads.total_founds);
+			jQuery("#r-total_payment").html(stads.total_payment);
+			
+			
+			stads.payment.forEach(function(element){
+				console.log(element);
+				//table-body-payment
+			});
+			
+			
+			var table = $('#table-body-payment');
+			table.find("tbody tr").remove();
+			employees.forEach(function (employee) {
+				table.append("<tr><td>" + employee.id + "</td><td>" + employee.name + "</td></tr>");
+			});
+			
+		}
+	})
+	.catch(function (error) { console.log(error); });
+}
+cargarEstadisticasGlobales();
+		
+
+$( "#select-threads" ).change(function () {
+	var selected = $( "#select-threads option:selected" ).val();
+	MAPI.setThrottle(selected);
+});
 </script>
+
+<style>
+.panel-box {
+    table-layout: fixed;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    border: medium none;
+}
+	
+.panel-box .panel-icon {
+    display: table-cell;
+    padding: 29px;
+    width: 1%;
+    vertical-align: top;
+    border-radius: 0px;
+    text-align: center;
+	border-bottom: 1px solid #fcfcfc;
+	border-top: 1px solid #fcfcfc;
+	border-right: 1px solid #fcfcfc;
+}
+
+.dashboard-stats .stat-icon {
+    line-height: 65px;
+}
+
+.bg-success {
+    background-color: #A3C86D !important;
+    color: #FFF !important;
+}
+	
+.success-text {
+    color: #82b33a;
+}
+	
+.bg-danger {
+    background-color: #FF7857 !important;
+    color: #FFF !important;
+}
+	
+.danger-text {
+    color: #d15b3d;
+}
+
+.bg-lovender {
+    background-color: #8075C4 !important;
+    color: #FFF !important;
+}
+
+.lovender-text {
+    color: #6a5fb1;
+}
+
+.bg-info {
+    background-color: #7ACBEE !important;
+    color: #FFF !important;
+}
+	
+.info-text {
+    color: #3ca0cb;
+}
+
+.size-h1 {
+    font-size: 20px;
+}
+
+.panel-icon p.text {
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+}
+
+.panel-icon i {
+    text-align: center;
+}
+
+.panel-icon i {
+    text-align: center;
+}
+
+.text-large {
+    font-size: 50px;
+}
+
+.text-large {
+    font-size: 50px;
+}
+</style>
 
 
   </body>
