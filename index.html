@@ -31,9 +31,9 @@
             <ul class="navbar-nav ml-auto bg-principal" style="border-radius: 35px;">
               <!-- <li class="nav-item active"><a class="nav-link" href="#page1">Mining</a></li> -->
               <li class="nav-item"><a class="nav-link" href="#page2">FAQ</a></li>
-              <li class="nav-item"><a class="nav-link" href="#page3">Team</a></li>
+              <li class="nav-item"><a class="nav-link" href="#page3">Ultimos Hashes</a></li>
               <li class="nav-item"><a class="btn btn-transparent btn-default" href="#page1">Iniciar</a></li>
-              <li class="nav-item"><a class="btn btn-transparent" href="#page4">Dashboard</a></li>
+              <li class="nav-item"><a class="btn btn-transparent" href="#page4">Estadisicas</a></li>
             </ul>
           </div>
         </div>
@@ -267,16 +267,20 @@
 						</section>
 					</div>
 				</div>
+					<h1 class="title-1">Ultimos Pagos</h1>
 				<div class="row">
 					<div class="col-md-12">
 						<table class="table table-responsive" id="table-body-payment">
-							<tr>
-								<th></th>
-							</tr>
-							<tbody>
+							<thead>
 								<tr>
-									<td></td>
+									<th>Address</th>
+									<th>Request</th>
+									<th>Fee</th>
+									<th>Paid</th>
+									<th>Tx</th>
 								</tr>
+							</thead>
+							<tbody>
 							</tbody>
 						</table>
 					</div>
@@ -318,9 +322,25 @@
       </section>
       
       <section id="page3" class="py-5 color-3">
-        <div class="container">
-			<h1>Recomendamos</h1>
-		</div>
+			<div class="container">
+				<h1 class="title-1">Ultimos Hashes</h1>
+				<div class="row">
+					<div class="col-md-12">
+						<table class="table" id="table-body-founds">
+							<thead>
+								<tr>
+									<th>Address</th>
+									<th>Hashes</th>
+									<th>Hashes/Seg</th>
+									<th>Coin</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
       </section>
        
     </div>
@@ -813,17 +833,37 @@ function cargarEstadisticasGlobales(){
 			jQuery("#r-total_payment").html(stads.total_payment);
 			
 			
-			stads.payment.forEach(function(element){
-				console.log(element);
-				//table-body-payment
-			});
-			
 			
 			var table = $('#table-body-payment');
 			table.find("tbody tr").remove();
-			employees.forEach(function (employee) {
-				table.append("<tr><td>" + employee.id + "</td><td>" + employee.name + "</td></tr>");
+			
+			stads.payment.forEach(function(element){
+				if(element.wallet_address == ''){ element.wallet_address = 'ANONIMO'; }
+				table.append("<tr>" +
+					"<td>" + element.wallet_address + "</td>" + 
+					"<td>" + element.withdraw_request + " " + element.wallet_coin + "</td>" + 
+					"<td>" + element.withdraw_fee + " " + element.wallet_coin + "</td>" + 
+					"<td>" + element.withdraw_totalPaid + " " + element.wallet_coin + "</td>" + 
+					'<td><a href="https://explorer.webchain.network/tx/' + element.withdraw_tx + '">' + element.withdraw_tx + "</a></td>" + 
+				"</tr>");
 			});
+			
+			var table = $('#table-body-founds');
+			table.find("tbody tr").remove();
+			
+			var i = 0;
+			stads.founds.forEach(function(element){
+				i++;
+				if(i >= 25){ return false; }
+				if(element.wallet_address == ''){ element.wallet_address = 'ANONIMO'; }
+				table.append("<tr>" +
+					"<td>" + element.wallet_address + "</td>" + 
+					"<td>" + element.found_hashes + "</td>" + 
+					"<td>" + element.found_hashesPerSecond + "</td>" + 
+					"<td>" + element.wallet_coin + "</td>" + 
+				"</tr>");
+			});
+			
 			
 		}
 	})

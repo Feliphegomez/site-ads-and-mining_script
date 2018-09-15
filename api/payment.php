@@ -77,7 +77,7 @@ if(
 	from `".TBL_FOUND."`
 	INNER JOIN `".TBL_WALLET."` ON 
 		`".TBL_FOUND."`.wallet_id = `".TBL_WALLET."`.id AND `".TBL_FOUND."`.`create` <= ('{$dateinicio}')
-		OR `".TBL_FOUND."`.wallet_id = `".TBL_WALLET."`.id AND `".TBL_FOUND."`.`create` >= ('{$datefin}')
+		OR `".TBL_FOUND."`.wallet_id = `".TBL_WALLET."`.id AND `".TBL_FOUND."`.`create` >= ('{$datefin}') order by `".TBL_FOUND."`.`create` desc
 	");
 	
 	if(isset($check->error) && $check->error == false && isset($check->data[0])){
@@ -104,7 +104,7 @@ if(
 	from `".TBL_JOB."`
 	INNER JOIN `".TBL_WALLET."` ON 
 		`".TBL_JOB."`.wallet_id = `".TBL_WALLET."`.id AND `".TBL_JOB."`.`create` <= ('{$dateinicio}')
-		OR `".TBL_JOB."`.wallet_id = `".TBL_WALLET."`.id AND `".TBL_JOB."`.`create` >= ('{$datefin}')
+		OR `".TBL_JOB."`.wallet_id = `".TBL_WALLET."`.id AND `".TBL_JOB."`.`create` >= ('{$datefin}') order by `".TBL_JOB."`.`create` desc
 	");
 	
 	if(isset($check->error) && $check->error == false && isset($check->data[0])){
@@ -139,7 +139,7 @@ if(
 		AND `".TBL_WITHDRAW."`.`create` <= ('{$dateinicio}') 
 	OR `".TBL_WITHDRAW."`.status = '1' 
 		AND `".TBL_WITHDRAW."`.wallet_id = `".TBL_WALLET."`.id 
-		AND `".TBL_WITHDRAW."`.`create` >= ('{$datefin}')");
+		AND `".TBL_WITHDRAW."`.`create` >= ('{$datefin}') order by `".TBL_WITHDRAW."`.`create` desc");
 	
 	if(isset($check->error) && $check->error == false && isset($check->data[0])){
 		foreach($check->data As $item){
@@ -174,7 +174,7 @@ if(
 		AND `".TBL_WITHDRAW."`.`create` <= ('{$dateinicio}') 
 	OR `".TBL_WITHDRAW."`.status = '0' 
 		AND `".TBL_WITHDRAW."`.wallet_id = `".TBL_WALLET."`.id 
-		AND `".TBL_WITHDRAW."`.`create` >= ('{$datefin}')");
+		AND `".TBL_WITHDRAW."`.`create` >= ('{$datefin}') order by `".TBL_WITHDRAW."`.`create` desc");
 	
 	if(isset($check->error) && $check->error == false && isset($check->data[0])){
 		foreach($check->data As $item){

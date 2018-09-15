@@ -24,7 +24,7 @@ html, body {
 
 section {
   height: auto;
-  min-height: 100vh;
+  min-height: 25vh;
   background: no-repeat center center scroll;
   -webkit-background-size: cover;
   -moz-background-size: cover;
