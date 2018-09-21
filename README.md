@@ -21,5 +21,6 @@ Knowledge is required in:
 
 # DEMO
 
-[![N|Solid](https://preview.ibb.co/ebxtCK/full.png)](https://preview.ibb.co/ebxtCK/full.png)
+https://feliphegomez.github.io/site-ads-and-mining_script/
 
+[![N|Solid](https://preview.ibb.co/ebxtCK/full.png)](https://feliphegomez.github.io/site-ads-and-mining_script/)
